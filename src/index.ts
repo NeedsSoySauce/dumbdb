@@ -16,7 +16,7 @@ import { logger } from './util/logger';
     // console.log(repo);
     logger.setLevel(LogLevel.debug);
     logger.debug('Hello world!', { test: 123 });
-    logger.debug({ test: new Error("wat") });
+    logger.debug({ test: new Error('wat') });
     logger.info('Hello world!');
     logger.warn('Hello world!');
     logger.error('Hello world!');

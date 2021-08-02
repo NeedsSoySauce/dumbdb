@@ -1,10 +1,10 @@
 import { Octokit } from 'octokit';
-import { GetRateLimitResponseDataType ,
+import {
+    GetRateLimitResponseDataType,
     CreateRepositoryResponseDataType,
     GetAuthenticatedUserResponseDataType,
     GetRepositoryResponseDataType,
-} from "../types/octokit";
-
+} from '../types/octokit';
 
 export interface GitHubOptions {
     octokit: Octokit;
@@ -26,7 +26,9 @@ export class GitHub {
         return this;
     }
 
-    public async GetRepository(repo: string): Promise<GetRepositoryResponseDataType> {
+    public async GetRepository(
+        repo: string,
+    ): Promise<GetRepositoryResponseDataType> {
         const response = await this.octokit.rest.repos.get({
             repo,
             owner: this.user.login,
@@ -34,15 +36,20 @@ export class GitHub {
         return response.data;
     }
 
-    public async CreateRepository(name: string): Promise<CreateRepositoryResponseDataType> {
-        const response = await this.octokit.rest.repos.createForAuthenticatedUser({
-            name,
-            owner: this.user.login,
-        });
+    public async CreateRepository(
+        name: string,
+    ): Promise<CreateRepositoryResponseDataType> {
+        const response =
+            await this.octokit.rest.repos.createForAuthenticatedUser({
+                name,
+                owner: this.user.login,
+            });
         return response.data;
     }
 
-    public async GetOrCreateRepository(name: string): Promise<GetRepositoryResponseDataType> {
+    public async GetOrCreateRepository(
+        name: string,
+    ): Promise<GetRepositoryResponseDataType> {
         try {
             return await this.GetRepository(name);
         } catch (e) {

@@ -48,6 +48,6 @@
     ],
     "ext": ".ts,.js",
     "ignore": [],
-    "exec": "npm run lint && ts-node ./src/index.ts"
+    "exec": "npm run prettier && npm run lint && ts-node ./src/index.ts"
   }
 }
