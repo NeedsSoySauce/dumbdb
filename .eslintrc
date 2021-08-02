@@ -13,7 +13,30 @@
         "project": "./tsconfig.json"
     },
     "rules": {
-        "multiline-comment-style": ["error", "starred-block"],
-        "no-trailing-spaces": "error"
-    }
+        "multiline-comment-style": "off",
+        "no-trailing-spaces": "error",
+        "@typescript-eslint/lines-between-class-members": [
+            "error",
+            "always",
+            {
+                "exceptAfterSingleLine": true
+            }
+        ],
+        "import/prefer-default-export": "off",
+        "no-restricted-syntax": [
+            "error",
+            {
+                "selector": "ExportDefaultDeclaration",
+                "message": "Do not use default exports. Importing modules must give a name to these values, which can lead to inconsistencies in naming across modules."
+            }
+        ]
+    },
+    "overrides": [
+        {
+            "files": ["*.ts", "*.tsx"],
+            "rules": {
+                "@typescript-eslint/explicit-member-accessibility": ["error"]
+            }
+        }
+    ]
 }
