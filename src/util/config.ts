@@ -5,9 +5,9 @@ class Environent {
     public static getString(key: string, optional: true): string | undefined;
     public static getString(key: string, optional?: boolean) {
         const value = process.env[key];
-        if (!value && !optional) {
+        if (value === undefined && !optional) {
             throw new Error(
-                `A truthy value for environment variable '${key}' could not be found. Did you forget to specify a value?`,
+                `A value for environment variable '${key}' could not be found. Did you forget to specify a value?`,
             );
         }
         return process.env[key];

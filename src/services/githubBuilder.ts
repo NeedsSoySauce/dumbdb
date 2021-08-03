@@ -24,6 +24,6 @@ export class GitHubBuilder implements AbstractAsyncBuilder<GitHub> {
         };
 
         const github = new GitHub(githubOptions);
-        return github.Initialize();
+        return github;
     }
 }

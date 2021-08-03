@@ -3,6 +3,7 @@ import {
     GetResponseDataTypeFromEndpointMethod,
     GetResponseTypeFromEndpointMethod,
 } from '@octokit/types';
+import { components } from '@octokit/openapi-types';
 
 const octokit = new Octokit();
 
@@ -30,3 +31,18 @@ export type GetRateLimitResponseType =
     GetResponseTypeFromEndpointMethod<GetRateLimit>;
 export type GetRateLimitResponseDataType =
     GetResponseDataTypeFromEndpointMethod<GetRateLimit>;
+
+export type GetContent = typeof octokit.rest.repos.getContent;
+export type GetContentResponseType =
+    GetResponseTypeFromEndpointMethod<GetContent>;
+export type GetContentResponseDataType =
+    GetResponseDataTypeFromEndpointMethod<GetContent>;
+export type GetContentResponseFileDateType =
+    components['schemas']['content-file'];
+
+export type CreateOrUpdateFileContents =
+    typeof octokit.rest.repos.createOrUpdateFileContents;
+export type CreateOrUpdateFileContentsResponseType =
+    GetResponseTypeFromEndpointMethod<CreateOrUpdateFileContents>;
+export type CreateOrUpdateFileContentsResponseDataType =
+    GetResponseDataTypeFromEndpointMethod<CreateOrUpdateFileContents>;
