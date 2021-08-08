@@ -20,7 +20,8 @@ const config = {
     GITHUB_PERSONAL_ACCESS_TOKEN: Environent.getString(
         'GITHUB_PERSONAL_ACCESS_TOKEN',
     ),
-    GITHUB_REPO_NAME: Environent.getString('GITHUB_REPO_NAME', false),
+    GITHUB_REPO_NAME: Environent.getString('GITHUB_REPO_NAME'),
+    DATABASE_NAME: Environent.getString('DATABASE_NAME'),
 };
 
 export { config };

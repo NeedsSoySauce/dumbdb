@@ -4,6 +4,6 @@ export interface GithubParameters {
 
 export type UploadOrUpdateFileParameters = GithubParameters & {
     path: string;
-    content: string;
+    content: Buffer;
     message?: string;
 };

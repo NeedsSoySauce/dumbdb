@@ -29,7 +29,8 @@
                 "selector": "ExportDefaultDeclaration",
                 "message": "Do not use default exports. Importing modules must give a name to these values, which can lead to inconsistencies in naming across modules."
             }
-        ]
+        ],
+        "class-methods-use-this": "off"
     },
     "overrides": [
         {
