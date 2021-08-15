@@ -1,18 +1,26 @@
-import { Collection, Model, ModelSchema } from '../types/databaseProvider';
+import {
+    Collection,
+    Model,
+    ModelSchema,
+    // Model,
+    // ModelSchema,
+    QueryPredicate,
+    UpdateFunction,
+} from '../types/databaseProvider';
 import { PersistenceProvider } from '../types/persistenceProvider';
 
-export interface CollectionParameters<T extends ModelSchema> {
+export interface CollectionParameters<T extends Model> {
     name: string;
     persistence: PersistenceProvider;
-    schema: T;
-    data: Model<T>[];
+    schema: ModelSchema<T>;
+    data: T[];
 }
 
-export class BaseCollection<T extends ModelSchema> implements Collection<T> {
+export class BaseCollection<T extends Model> implements Collection<T> {
     private name: string;
     private persistence: PersistenceProvider;
-    private schema: ModelSchema;
-    private data: Model<T>[];
+    private schema: ModelSchema<T>;
+    private data: T[];
 
     public constructor(params: CollectionParameters<T>) {
         this.name = params.name;
@@ -21,16 +29,20 @@ export class BaseCollection<T extends ModelSchema> implements Collection<T> {
         this.data = params.data;
     }
 
-    public async insert(model: Model<T>): Promise<Model<T>> {
+    private async saveChanges() {
+        await this.persistence.save(
+            this.name,
+            JSON.stringify(this.data, null, 2),
+        );
+    }
+
+    public async insert(model: T): Promise<T> {
         const copy = { ...model };
 
         // Check properties with defaults
         const defaults = Object.entries(this.schema)
             .filter((s) => s[1].default)
-            .map((s) => [s[0], s[1].default]) as [
-            keyof Model<T>,
-            Model<T>[keyof Model<T>],
-        ][];
+            .map((s) => [s[0], s[1].default]) as [keyof T, T[keyof T]][];
 
         for (const [key, value] of defaults) {
             if (!model[key]) {
@@ -41,7 +53,7 @@ export class BaseCollection<T extends ModelSchema> implements Collection<T> {
         // Check required properties
         const required = Object.entries(this.schema)
             .filter((s) => !s[1].optional)
-            .map((s) => s[0]) as (keyof Model<T>)[];
+            .map((s) => s[0]) as (keyof T)[];
 
         for (const key of required) {
             if (!copy[key]) {
@@ -52,35 +64,32 @@ export class BaseCollection<T extends ModelSchema> implements Collection<T> {
         }
 
         this.data.push(copy);
-        await this.persistence.save(
-            this.name,
-            JSON.stringify(this.data, null, 2),
-        );
+        this.saveChanges();
         return copy;
     }
 
-    public select(
-        predicate: (model: Model<T>) => boolean,
-    ): Promise<Model<T>[]> {
+    public select(predicate: QueryPredicate<T>): Promise<T[]> {
         return Promise.resolve(this.data.filter(predicate));
     }
 
-    public selectOne(
-        predicate: (model: Model<T>) => boolean,
-    ): Promise<Model<T> | null> {
+    public selectOne(predicate: QueryPredicate<T>): Promise<T | null> {
         return Promise.resolve(this.data.find(predicate) ?? null);
     }
 
-    public update(
-        predicate: (model: Model<T>) => boolean,
-        modifier: (model: Model<T>) => Model<T>,
-    ): Promise<Model<T>[]> {
-        throw new Error('Method not implemented.');
+    public async update(
+        predicate: QueryPredicate<T>,
+        modifier: UpdateFunction<T>,
+    ): Promise<void> {
+        const items = this.data.filter(predicate);
+        this.data = this.data.filter((model) => !predicate(model));
+
+        const modified = items.map(modifier);
+        this.data = [...this.data, ...modified];
+        await this.saveChanges();
     }
 
-    public delete(
-        predicate: (model: Model<T>) => boolean,
-    ): Promise<Model<T>[]> {
-        throw new Error('Method not implemented.');
+    public async delete(predicate: QueryPredicate<T>): Promise<void> {
+        this.data = this.data.filter((model) => !predicate(model));
+        await this.saveChanges();
     }
 }

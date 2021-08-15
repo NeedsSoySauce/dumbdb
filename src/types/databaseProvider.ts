@@ -1,71 +1,92 @@
 export interface DatabaseProvider {
-    addModel<T extends ModelSchema>(
+    addModel<T extends Model>(
         name: string,
-        schema: T,
+        schema: ModelSchema<T>,
     ): Promise<Collection<T>>;
 }
 
-type SelectPredicate<T extends ModelSchema> = (model: Model<T>) => boolean;
-type UpdateModelFunction<T extends ModelSchema> = (model: Model<T>) => Model<T>;
+export type QueryPredicate<T> = (model: T) => boolean;
+export type UpdateFunction<T> = (model: T) => T;
 
-export interface Collection<T extends ModelSchema> {
-    insert(model: Model<T>): Promise<Model<T>>;
-    select(predicate: SelectPredicate<T>): Promise<Model<T>[]>;
-    selectOne(predicate: SelectPredicate<T>): Promise<Model<T> | null>;
+export interface Collection<T extends Model> {
+    insert(model: T): Promise<T>;
+    select(predicate: QueryPredicate<T>): Promise<T[]>;
+    selectOne(predicate: QueryPredicate<T>): Promise<T | null>;
     update(
-        predicate: SelectPredicate<T>,
-        modifier: UpdateModelFunction<T>,
-    ): Promise<Model<T>[]>;
-    delete(predicate: SelectPredicate<T>): Promise<Model<T>[]>;
+        predicate: QueryPredicate<T>,
+        modifier: UpdateFunction<T>,
+    ): Promise<void>;
+    delete(predicate: QueryPredicate<T>): Promise<void>;
 }
 
-type PropertyType = 'string' | 'number' | 'date';
+export type ModelPropertyType = string | number | Date;
 
-interface RequiredProperty<T> {
+export type MapTypeToKind<T extends ModelPropertyType> = T extends string
+    ? 'string'
+    : T extends number
+    ? 'number'
+    : 'date';
+
+export interface Model {
+    [x: string]: ModelPropertyType;
+}
+
+export type ModelProperty<T extends ModelPropertyType> = {
     default?: T;
-    optional?: false;
-}
-
-interface OptionalProperty<T> {
-    default?: T;
-    optional: true;
-}
-
-type BaseProperty<TKind extends PropertyType, TType> = (
-    | RequiredProperty<TType>
-    | OptionalProperty<TType>
-) & {
-    kind: TKind;
+    optional?: boolean;
+    kind: MapTypeToKind<T>;
 };
 
-export type StringType = BaseProperty<'string', string>;
-export type NumberType = BaseProperty<'number', number>;
-export type DateType = BaseProperty<'date', Date>;
-
-export type ModelProperty = StringType | NumberType | DateType;
-
-export interface ModelSchema {
-    [x: string]: ModelProperty;
-}
-
-type MapKindToType<T extends PropertyType> = T extends 'string'
-    ? string
-    : T extends 'number'
-    ? number
-    : Date;
-
-type Optional = { optional: true } | { default: string | number | Date };
-
-type MapSchemaToModel<T extends ModelSchema> = {
-    [K in keyof T]: T[K] extends Optional
-        ? {
-              [P in K]?: MapKindToType<T[K]['kind']>;
-          }
-        : {
-              [P in K]: MapKindToType<T[K]['kind']>;
-          };
+export type ModelSchema<T extends Model> = {
+    [K in keyof T]: ModelProperty<T[K]>;
 };
 
-type Flatten<T> = T[keyof T];
+// type PropertyType = 'string' | 'number' | 'date';
 
-export type Model<T extends ModelSchema> = Flatten<MapSchemaToModel<T>>;
+// interface RequiredProperty<T> {
+//     // default?: T;
+//     optional?: false;
+// }
+
+// interface OptionalProperty<T> {
+//     // default?: T;
+//     optional: true;
+// }
+
+// type BaseProperty<TKind extends PropertyType, TType> = (
+//     | RequiredProperty<TType>
+//     | OptionalProperty<TType>
+// ) & {
+//     kind: TKind;
+// };
+
+// export type StringType = BaseProperty<'string', string>;
+// export type NumberType = BaseProperty<'number', number>;
+// // export type DateType = BaseProperty<'date', Date>;
+
+// export type ModelProperty = StringType | NumberType;
+// // export type ModelProperty = StringType | NumberType | DateType;
+
+// export interface ModelSchema {
+//     [x: string]: ModelProperty;
+// }
+
+// type MapKindToType<T extends PropertyType> = T extends 'string'
+//     ? string
+//     : number;
+
+// type Optional = { optional: true };
+
+// type MapSchemaToModel<T extends ModelSchema> = {
+//     [K in keyof T]: T[K] extends { optional: true }
+//         ? {
+//               [P in K]?: MapKindToType<T[K]['kind']>;
+//           }
+//         : {
+//               [P in K]: MapKindToType<T[K]['kind']>;
+//           };
+// };
+
+// type Flatten<T> = T[keyof T];
+
+// export type Model<T extends ModelSchema> = Flatten<MapSchemaToT>;

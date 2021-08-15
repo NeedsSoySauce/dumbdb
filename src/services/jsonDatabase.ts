@@ -1,8 +1,8 @@
 import {
-    DatabaseProvider,
-    ModelSchema,
     Collection,
+    DatabaseProvider,
     Model,
+    ModelSchema,
 } from '../types/databaseProvider';
 import { PersistenceProvider } from '../types/persistenceProvider';
 import { BaseCollection } from './collection';
@@ -18,13 +18,13 @@ export class JsonDatabase implements DatabaseProvider {
         this.persistence = params.persistence;
     }
 
-    public async addModel<T extends ModelSchema>(
+    public async addModel<T extends Model>(
         name: string,
-        schema: T,
+        schema: ModelSchema<T>,
     ): Promise<Collection<T>> {
         const path = `${name}.json`;
 
-        let data: Model<T>[];
+        let data: T[];
 
         const dateKeys = Object.entries(schema)
             .filter((s) => s[1].kind === 'date')
