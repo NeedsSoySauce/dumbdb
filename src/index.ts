@@ -8,6 +8,7 @@ interface TestModel extends Model {
     str: string;
     num: number;
     date: Date;
+    bool: boolean;
 }
 
 (async () => {
@@ -24,6 +25,9 @@ interface TestModel extends Model {
         },
         date: {
             kind: 'date',
+        },
+        bool: {
+            kind: 'boolean',
         },
     };
 

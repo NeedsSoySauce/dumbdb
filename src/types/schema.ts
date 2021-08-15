@@ -1,10 +1,12 @@
-export type ModelPropertyType = string | number | Date;
+export type ModelPropertyType = string | number | Date | boolean;
 
 export type MapTypeToKind<T extends ModelPropertyType> = T extends string
     ? 'string'
     : T extends number
     ? 'number'
-    : 'date';
+    : T extends Date
+    ? 'date'
+    : 'boolean';
 
 export interface Model {
     [x: string]: ModelPropertyType;
