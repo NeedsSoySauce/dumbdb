@@ -9,6 +9,8 @@ interface TestModel extends Model {
     num: number;
     date: Date;
     bool: boolean;
+    strArr: string[];
+    dateArr: Date[];
 }
 
 (async () => {
@@ -29,9 +31,15 @@ interface TestModel extends Model {
         bool: {
             kind: 'boolean',
         },
+        strArr: {
+            kind: 'string[]',
+        },
+        dateArr: {
+            kind: 'date[]',
+        },
     };
 
     const users = await db.addModel('users', testSchema);
-    const results = await users.select((u) => u.str === '123');
+    const results = await users.select(() => true);
     console.log(results);
 })();
