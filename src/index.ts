@@ -1,7 +1,7 @@
 import { ResponseHeaders } from '@octokit/types';
-import { BaseCollection } from './services/collection';
-import { FileSystemPersistenceProvider } from './services/fileSystemPersistenceProvider';
-import { JsonDatabase } from './services/jsonDatabase';
+import { BaseCollection } from './collection/collection';
+import { FileSystemPersistenceProvider } from './persistence/fileSystemPersistenceProvider';
+import { JsonDatabase } from './database/jsonDatabase';
 import { Model, ModelSchema } from './types/databaseProvider';
 
 export type QueryPredicate<T> = (model: T) => boolean;

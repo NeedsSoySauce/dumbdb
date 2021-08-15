@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { PersistenceProvider } from '../types/persistenceProvider';
+import { PersistenceProvider } from '../types/persistence';
 
 export class FileSystemPersistenceProvider implements PersistenceProvider {
     public async save(

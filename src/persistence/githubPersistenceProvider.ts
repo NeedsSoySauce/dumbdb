@@ -1,5 +1,5 @@
 import { GitHub } from './github';
-import { PersistenceProvider } from '../types/persistenceProvider';
+import { PersistenceProvider } from '../types/persistence';
 
 export interface GitHubPersistenceProviderOptions {
     github: GitHub;

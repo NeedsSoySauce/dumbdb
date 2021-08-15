@@ -1,13 +1,10 @@
 import {
     Collection,
-    Model,
-    ModelSchema,
-    // Model,
-    // ModelSchema,
     QueryPredicate,
     UpdateFunction,
-} from '../types/databaseProvider';
-import { PersistenceProvider } from '../types/persistenceProvider';
+} from '../types/collection';
+import { PersistenceProvider } from '../types/persistence';
+import { Model, ModelSchema } from '../types/schema';
 
 export interface CollectionParameters<T extends Model> {
     name: string;

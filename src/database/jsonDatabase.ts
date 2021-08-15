@@ -5,7 +5,7 @@ import {
     ModelSchema,
 } from '../types/databaseProvider';
 import { PersistenceProvider } from '../types/persistenceProvider';
-import { BaseCollection } from './collection';
+import { BaseCollection } from '../collection/collection';
 
 export interface JsonDatabaseParameters {
     persistence: PersistenceProvider;
