@@ -1,11 +1,8 @@
-import {
-    Collection,
-    DatabaseProvider,
-    Model,
-    ModelSchema,
-} from '../types/databaseProvider';
-import { PersistenceProvider } from '../types/persistenceProvider';
-import { BaseCollection } from '../collection/collection';
+import { BaseCollection } from '../collection';
+import { Collection } from '../types/collection';
+import { DatabaseProvider } from '../types/database';
+import { PersistenceProvider } from '../types/persistence';
+import { Model, ModelSchema } from '../types/schema';
 
 export interface JsonDatabaseParameters {
     persistence: PersistenceProvider;

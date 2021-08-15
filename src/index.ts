@@ -1,15 +1,8 @@
-import { ResponseHeaders } from '@octokit/types';
-import { BaseCollection } from './collection/collection';
-import { FileSystemPersistenceProvider } from './persistence/fileSystemPersistenceProvider';
 import { JsonDatabase } from './database/jsonDatabase';
-import { Model, ModelSchema } from './types/databaseProvider';
+import { FileSystemPersistenceProvider } from './persistence/fileSystemPersistenceProvider';
+import { Model, ModelSchema } from './types/schema';
 
 export type QueryPredicate<T> = (model: T) => boolean;
-
-interface Result {
-    id: string;
-    num: number;
-}
 
 interface TestModel extends Model {
     str: string;
@@ -37,20 +30,4 @@ interface TestModel extends Model {
     const users = await db.addModel('users', testSchema);
     const results = await users.select((u) => u.str === '123');
     console.log(results);
-
-    // const model = await users.insert({
-    //     created: new Date(),
-    //     num: 123,
-    // });
-
-    // const results = await users.select((user) => user);
-    // console.log(results);
-
-    // await users.update(
-    //     (model) => true,
-    //     (user) => ({
-    //         ...user,
-    //         id: `${user.id}modified`,
-    //     }),
-    // );
 })();
