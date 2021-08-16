@@ -1,45 +1,43 @@
-import { JsonDatabase } from './database/jsonDatabase';
-import { FileSystemPersistenceProvider } from './persistence/fileSystemPersistenceProvider';
+import { JsonDatabaseBuilder } from './database/jsonDatabaseBuilder';
 import { Model, ModelSchema } from './types/schema';
-
-export type QueryPredicate<T> = (model: T) => boolean;
+import { config } from './util';
+import { logger } from './util/logger';
 
 interface TestModel extends Model {
-    str: string;
-    num: number;
-    date: Date;
-    bool: boolean;
-    strArr: string[];
-    dateArr: Date[];
+    id: string;
+    numbers: number[];
 }
 
 (async () => {
-    const persistence = new FileSystemPersistenceProvider();
-
-    const db = new JsonDatabase({ persistence });
+    const db = await new JsonDatabaseBuilder({
+        auth: config.GITHUB_PERSONAL_ACCESS_TOKEN,
+        repo: config.GITHUB_REPO_NAME,
+    }).build();
 
     const testSchema: ModelSchema<TestModel> = {
-        str: {
+        id: {
             kind: 'string',
         },
-        num: {
-            kind: 'number',
-        },
-        date: {
-            kind: 'date',
-        },
-        bool: {
-            kind: 'boolean',
-        },
-        strArr: {
-            kind: 'string[]',
-        },
-        dateArr: {
-            kind: 'date[]',
+        numbers: {
+            kind: 'number[]',
         },
     };
 
     const users = await db.addModel('users', testSchema);
-    const results = await users.select(() => true);
-    console.log(results);
-})();
+
+    const promises: Promise<TestModel>[] = [];
+
+    for (let i = 0; i < 100; i += 1) {
+        const promise = users.insert({
+            id: `${i}`,
+            numbers: [i],
+        });
+        promises.push(promise);
+    }
+
+    await Promise.all(promises);
+
+    logger.info(await users.select(() => true));
+
+    await users.saveChanges();
+})().catch((e) => logger.error(e));

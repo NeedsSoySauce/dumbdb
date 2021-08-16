@@ -15,9 +15,12 @@ export class GitHubPersistenceProvider implements PersistenceProvider {
         this.repo = params.repo;
     }
 
-    public async save(path: string, content: Buffer): Promise<void> {
+    public async save(path: string, content: string | Buffer): Promise<void> {
+        const buffer =
+            typeof content === 'string' ? Buffer.from(content) : content;
+
         await this.github.UploadOrUpdateFile({
-            content,
+            content: buffer,
             path,
             repo: this.repo,
         });

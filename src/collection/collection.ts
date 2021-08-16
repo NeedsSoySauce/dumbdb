@@ -26,7 +26,7 @@ export class BaseCollection<T extends Model> implements Collection<T> {
         this.data = params.data;
     }
 
-    private async saveChanges() {
+    public async saveChanges(): Promise<void> {
         await this.persistence.save(
             this.name,
             JSON.stringify(this.data, null, 2),
@@ -61,7 +61,6 @@ export class BaseCollection<T extends Model> implements Collection<T> {
         }
 
         this.data.push(copy);
-        this.saveChanges();
         return copy;
     }
 
@@ -82,11 +81,9 @@ export class BaseCollection<T extends Model> implements Collection<T> {
 
         const modified = items.map(modifier);
         this.data = [...this.data, ...modified];
-        await this.saveChanges();
     }
 
     public async delete(predicate: QueryPredicate<T>): Promise<void> {
         this.data = this.data.filter((model) => !predicate(model));
-        await this.saveChanges();
     }
 }

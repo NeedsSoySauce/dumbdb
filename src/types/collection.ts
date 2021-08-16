@@ -12,4 +12,5 @@ export interface Collection<T extends Model> {
         modifier: UpdateFunction<T>,
     ): Promise<void>;
     delete(predicate: QueryPredicate<T>): Promise<void>;
+    saveChanges(): Promise<void>;
 }
