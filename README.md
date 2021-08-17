@@ -1,6 +1,10 @@
-## About
+# About
 
-This is simple a Node.js template that is setup with Typescript, eslint, and ES6 language features.
+Dumbdb is database that is dumb.
+
+# Development
+
+These instructions are for people who want to work on dumbdb itself.
 
 ## Getting Started
 
@@ -25,13 +29,3 @@ To run the project:
 ```
 npm run dev
 ```
-
-## Deployment
-
-To generate a production build run:
-
-```
-npm run build
-```
-
-The above will generate a production build in a folder named `build` which you can deploy.

@@ -1,7 +1,7 @@
 {
-  "name": "node_template",
-  "version": "1.0.0",
-  "description": "Node.js project template",
+  "name": "@needssoysauce/dumbdb",
+  "version": "0.1.0",
+  "description": "Dumb database that is dumb.",
   "main": "src/index.js",
   "scripts": {
     "dev": "nodemon",
@@ -15,9 +15,10 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@octokit/types": "^6.22.0",
+    "async-mutex": "^0.3.1",
     "dotenv": "^10.0.0",
     "octokit": "^1.1.0",
     "pino": "^6.13.0"
