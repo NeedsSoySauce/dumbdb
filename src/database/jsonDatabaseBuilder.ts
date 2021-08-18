@@ -4,7 +4,19 @@ import { GitHubBuilder } from '../persistence/githubBuilder';
 import { AbstractAsyncBuilder } from '../types/builder';
 
 export interface JsonDatabaseBuilderOptions {
+    /**
+     * GitHub personal access token.
+     *
+     * The token should have the appropriate scopes for the repository you want to
+     * use, e.g. `public_repo` if you want to use a public repository, and `repo` if
+     * you want to use a private repository.
+     * */
     auth: string;
+
+    /**
+     * Name of the the GitHub repository you want to use. A repository with this name
+     * will be created if it doesn't exist.
+     */
     repo: string;
 }
 
