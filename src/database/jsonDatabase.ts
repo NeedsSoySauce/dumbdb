@@ -1,4 +1,4 @@
-import { BaseCollection } from '../collection';
+import { BaseCollection } from '../collection/baseCollection';
 import { Collection } from '../types/collection';
 import { DatabaseProvider } from '../types/database';
 import { PersistenceProvider } from '../types/persistence';

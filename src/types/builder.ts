@@ -1,5 +1,3 @@
-interface AbstractAsyncBuilder<T> {
+export interface AbstractAsyncBuilder<T> {
     build(): Promise<T>;
 }
-
-export { AbstractAsyncBuilder };

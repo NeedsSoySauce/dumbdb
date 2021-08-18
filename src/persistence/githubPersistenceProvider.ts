@@ -1,6 +1,6 @@
 import { GitHub } from './github';
 import { PersistenceProvider } from '../types/persistence';
-import { Mutex } from '../mutex';
+import { Mutex } from '../synchronization/mutex';
 import { Lock } from '../types/mutex';
 
 export interface GitHubPersistenceProviderOptions {

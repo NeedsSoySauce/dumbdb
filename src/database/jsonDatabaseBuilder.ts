@@ -1,5 +1,5 @@
-import { JsonDatabase } from '.';
-import { GitHubPersistenceProvider } from '../persistence';
+import { JsonDatabase } from './jsonDatabase';
+import { GitHubPersistenceProvider } from '../persistence/githubPersistenceProvider';
 import { GitHubBuilder } from '../persistence/githubBuilder';
 import { AbstractAsyncBuilder } from '../types/builder';
 

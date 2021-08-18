@@ -1,3 +1,3 @@
-import { JsonDatabase } from './jsonDatabase';
+import { JsonDatabaseBuilder } from './jsonDatabaseBuilder';
 
-export { JsonDatabase };
+export { JsonDatabaseBuilder };
