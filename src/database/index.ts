@@ -1,3 +1,6 @@
-import { JsonDatabaseBuilder } from './jsonDatabaseBuilder';
+import {
+    JsonDatabaseBuilder,
+    JsonDatabaseBuilderOptions,
+} from './jsonDatabaseBuilder';
 
-export { JsonDatabaseBuilder };
+export { JsonDatabaseBuilder, JsonDatabaseBuilderOptions };
