@@ -1,6 +1,6 @@
 import {
-    JsonDatabaseBuilder,
-    JsonDatabaseBuilderOptions,
-} from './jsonDatabaseBuilder';
+    DumbDatabaseBuilder,
+    DumbDatabaseBuilderOptions,
+} from './dumbDatabaseBuilder';
 
-export { JsonDatabaseBuilder, JsonDatabaseBuilderOptions };
+export { DumbDatabaseBuilder, DumbDatabaseBuilderOptions };

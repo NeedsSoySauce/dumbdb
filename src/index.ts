@@ -1,4 +1,4 @@
-export { JsonDatabaseBuilder, JsonDatabaseBuilderOptions } from './database';
+export { DumbDatabaseBuilder, DumbDatabaseBuilderOptions } from './database';
 
 export {
     AbstractAsyncBuilder,

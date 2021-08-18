@@ -5,14 +5,14 @@ import { PersistenceProvider } from '../types/persistence';
 import { Model, ModelSchema } from '../types/schema';
 import { logger } from '../util/logger';
 
-export interface JsonDatabaseParameters {
+export interface DumbDatabaseParameters {
     persistence: PersistenceProvider;
 }
 
-export class JsonDatabase implements DatabaseProvider {
+export class DumbDatabase implements DatabaseProvider {
     private persistence: PersistenceProvider;
 
-    public constructor(params: JsonDatabaseParameters) {
+    public constructor(params: DumbDatabaseParameters) {
         this.persistence = params.persistence;
     }
 

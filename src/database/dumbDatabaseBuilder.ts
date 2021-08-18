@@ -1,9 +1,9 @@
-import { JsonDatabase } from './jsonDatabase';
+import { DumbDatabase } from './dumbDatabase';
 import { GitHubPersistenceProvider } from '../persistence/githubPersistenceProvider';
 import { GitHubBuilder } from '../persistence/githubBuilder';
 import { AbstractAsyncBuilder } from '../types/builder';
 
-export interface JsonDatabaseBuilderOptions {
+export interface DumbDatabaseBuilderOptions {
     /**
      * GitHub personal access token.
      *
@@ -20,14 +20,14 @@ export interface JsonDatabaseBuilderOptions {
     repo: string;
 }
 
-export class JsonDatabaseBuilder implements AbstractAsyncBuilder<JsonDatabase> {
-    private options: JsonDatabaseBuilderOptions;
+export class DumbDatabaseBuilder implements AbstractAsyncBuilder<DumbDatabase> {
+    private options: DumbDatabaseBuilderOptions;
 
-    public constructor(options: JsonDatabaseBuilderOptions) {
+    public constructor(options: DumbDatabaseBuilderOptions) {
         this.options = options;
     }
 
-    public async build(): Promise<JsonDatabase> {
+    public async build(): Promise<DumbDatabase> {
         const github = await new GitHubBuilder({
             auth: this.options.auth,
         }).build();
@@ -37,7 +37,7 @@ export class JsonDatabaseBuilder implements AbstractAsyncBuilder<JsonDatabase> {
             repo: this.options.repo,
         });
 
-        const db = new JsonDatabase({ persistence });
+        const db = new DumbDatabase({ persistence });
 
         return db;
     }
