@@ -7,7 +7,7 @@
     "dev": "nodemon",
     "start": "node build/index.js",
     "clean": "rimraf build",
-    "copy": "copyfiles package.json LICENSE build",
+    "copy": "copyfiles package.json LICENSE README.md build",
     "build": "npm run clean && tsc && npm run copy",
     "pub": "npm publish build --access public",
     "lint": "eslint \"src/**\" --quiet --fix",
