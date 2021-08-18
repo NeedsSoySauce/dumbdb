@@ -6,11 +6,13 @@
   "scripts": {
     "dev": "nodemon",
     "start": "node build/index.js",
-    "build": "rimraf ./build && tsc",
+    "clean": "rimraf build",
+    "copy": "copyfiles package.json LICENSE build",
+    "build": "npm run clean && tsc && npm run copy",
+    "pub": "npm publish build --access public",
     "lint": "eslint \"src/**\" --quiet --fix",
     "lint-ci": "eslint \"src/**\" --quiet",
     "test": "echo Specify a test script in package.json to run tests",
-    "prepare": "husky install",
     "prettier": "prettier -w src"
   },
   "keywords": [],
@@ -28,6 +30,7 @@
     "@types/pino": "^6.3.11",
     "@typescript-eslint/eslint-plugin": "^4.4.1",
     "@typescript-eslint/parser": "^4.25.0",
+    "copyfiles": "^2.4.1",
     "eslint": "^7.27.0",
     "eslint-config-airbnb-typescript": "^12.3.1",
     "eslint-config-prettier": "^8.3.0",
