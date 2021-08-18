@@ -44,7 +44,7 @@ export class DumbDatabase implements DatabaseProvider {
                 return value;
             });
         } catch (e) {
-            logger.error(e);
+            logger.debug(`Unable to find ${path}`, e);
             data = [];
         }
 
