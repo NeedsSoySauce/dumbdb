@@ -2,15 +2,17 @@ name: Build and release
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ main ]
-
+  workflow_run:
+    branches: ['main']
+    workflows: ['Check linting and run tests']
+    types:
+      - completed
+  
 jobs:
   build:
-    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
-    outputs:
-      new-version: ${{ steps.auto-version.outputs.new-version }}
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
@@ -21,12 +23,6 @@ jobs:
 
     - name: Install dependencies
       run: npm ci
-
-    - name: Check linting
-      run: npm run lint-ci
-
-    - name: Run tests
-      run: npm run test --if-present
 
       # Workaround as GitHub doesn't support using private actions
     - name: Checkout action
@@ -40,7 +36,6 @@ jobs:
       run: |
         git config user.name github-actions[bot]
         git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-
     - name: Update version
       id: auto-version
       uses: ./auto-version
@@ -90,28 +85,3 @@ jobs:
       - run: npm publish build
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
