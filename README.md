@@ -1,6 +1,8 @@
 # About
 
-Dumbdb is database that is dumb.
+Dumbdb is a database that is dumb.
+
+## Usage
 
 # Development
 
