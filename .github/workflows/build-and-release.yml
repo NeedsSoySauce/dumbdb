@@ -41,12 +41,13 @@ jobs:
       uses: ./auto-version
       with:
         major: |
-          feat!:
-          fix!:
+          feat!
+          fix!
         minor: |
-          feat:
+          feat
         patch: |
-          fix:
+          fix
+        seperator: ':'
         token: ${{ github.token }}
         message: "Update version to %s"
         no-prefix: "success"
