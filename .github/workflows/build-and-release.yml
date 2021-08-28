@@ -8,6 +8,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    
+    outputs:
+      new-version: ${{ steps.auto-version.outputs.new-version }} 
 
     steps:
       - uses: actions/checkout@v2
