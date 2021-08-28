@@ -2,69 +2,71 @@ name: Build and release
 
 on:
   workflow_dispatch:
-  workflow_run:
-    branches: ['main']
-    workflows: ['Check linting and run tests']
-    types:
-      - completed
-  
+  push:
+    branches: ["main"]
+
 jobs:
   build:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-  
-    - uses: actions/setup-node@v2
-      with:
-        node-version: '14.x'
+      - uses: actions/checkout@v2
 
-    - name: Install dependencies
-      run: npm ci
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "14.x"
 
-      # Workaround as GitHub doesn't support using private actions
-    - name: Checkout action
-      uses: actions/checkout@v2.3.4
-      with:
-        token: ${{ secrets.PAT }}
-        repository: needssoysauce/auto-version
-        path: auto-version
+      - name: Install dependencies
+        run: npm ci
 
-    - name: Configure git
-      run: |
-        git config user.name github-actions[bot]
-        git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-    - name: Update version
-      id: auto-version
-      uses: ./auto-version
-      with:
-        major: |
-          feat!
-          fix!
-        minor: |
-          feat
-        patch: |
-          fix
-        seperator: ':'
-        token: ${{ github.token }}
-        message: "Update version to %s"
-        no-prefix: "success"
-        git-tag-version: 'true'
+      - name: Check linting
+        run: npm run lint-ci
 
-    - if: steps.auto-version.outputs.new-version != ''
-      run: git push --follow-tags
+      - name: Run tests
+        run: npm run test --if-present
 
-    - if: steps.auto-version.outputs.new-version != ''
-      run: npm run build
+        # Workaround as GitHub doesn't support using private actions
+      - name: Checkout action
+        uses: actions/checkout@v2.3.4
+        with:
+          token: ${{ secrets.PAT }}
+          repository: needssoysauce/auto-version
+          path: auto-version
 
-    - name: Upload artifact
-      if: steps.auto-version.outputs.new-version != ''
-      uses: actions/upload-artifact@v2.2.4
-      with:
-        name: build
-        path: build
+      - name: Configure git
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+
+      - name: Update version
+        id: auto-version
+        uses: ./auto-version
+        with:
+          major: |
+            feat!
+            fix!
+          minor: |
+            feat
+          patch: |
+            fix
+          seperator: ":"
+          token: ${{ github.token }}
+          message: "Update version to %s"
+          no-prefix: "success"
+          git-tag-version: "true"
+
+      - if: steps.auto-version.outputs.new-version != ''
+        run: git push --follow-tags
+
+      - if: steps.auto-version.outputs.new-version != ''
+        run: npm run build
+
+      - name: Upload artifact
+        if: steps.auto-version.outputs.new-version != ''
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: build
+          path: build
 
   release:
     needs: build
@@ -73,9 +75,9 @@ jobs:
     steps:
       - uses: actions/setup-node@v2
         with:
-          node-version: '14.x'
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@needssoysauce'
+          node-version: "14.x"
+          registry-url: "https://npm.pkg.github.com"
+          scope: "@needssoysauce"
 
       - name: Download a Build Artifact
         uses: actions/download-artifact@v2.0.10
