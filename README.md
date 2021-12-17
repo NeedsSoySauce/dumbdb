@@ -1,6 +1,6 @@
 # About
 
-Dumbdb is a database that is dumb.
+Dumbdb isn't a database but it is pretty dumb.
 
 ## Usage
 
