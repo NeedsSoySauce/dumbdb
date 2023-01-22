@@ -2,5 +2,6 @@ import {
     DumbDatabaseBuilder,
     DumbDatabaseBuilderOptions,
 } from './dumbDatabaseBuilder';
+import { DumbDatabase } from './dumbDatabase';
 
-export { DumbDatabaseBuilder, DumbDatabaseBuilderOptions };
+export { DumbDatabase, DumbDatabaseBuilder, DumbDatabaseBuilderOptions };

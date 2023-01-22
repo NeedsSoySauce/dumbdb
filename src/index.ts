@@ -1,14 +1,17 @@
-export { DumbDatabaseBuilder, DumbDatabaseBuilderOptions } from './database';
-
+export {
+    DumbDatabase,
+    DumbDatabaseBuilder,
+    DumbDatabaseBuilderOptions,
+} from './database';
 export {
     AbstractAsyncBuilder,
-    QueryPredicate,
-    UpdateFunction,
     Collection,
-    ModelPropertyType,
-    MapTypeToKind,
     MapArrayTypeToKind,
+    MapTypeToKind,
     Model,
     ModelProperty,
+    ModelPropertyType,
     ModelSchema,
+    QueryPredicate,
+    UpdateFunction,
 } from './types';

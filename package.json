@@ -6,7 +6,7 @@
     "type": "git",
     "url": "https://github.com/NeedsSoySauce/dumbdb.git"
   },
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
     "dev": "nodemon",
     "start": "node build/index.js",
