@@ -69,7 +69,11 @@ jobs:
         uses: actions/upload-artifact@v2.2.4
         with:
           name: build
-          path: build
+          path: |
+            dist
+            package.json
+            README.md
+            LICENSE
 
   release:
     needs: build
