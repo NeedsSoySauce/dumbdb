@@ -4,7 +4,7 @@ import { PersistenceProvider } from '../types/persistence';
 export class FileSystemPersistenceProvider implements PersistenceProvider {
     public async save(
         path: string,
-        content: Buffer,
+        content: Uint8Array,
         encoding?: BufferEncoding,
     ): Promise<void> {
         fs.writeFileSync(path, content, {
@@ -12,7 +12,7 @@ export class FileSystemPersistenceProvider implements PersistenceProvider {
         });
     }
 
-    public async load(path: string): Promise<Buffer> {
+    public async load(path: string): Promise<Uint8Array> {
         return fs.readFileSync(path);
     }
 }

@@ -1,19 +1,11 @@
-import pino from 'pino';
-import { LogObject, LogLevel, LoggingProvider } from '../types/logging';
 
-const baseLogger = pino({
-    prettyPrint: true,
-});
+import { LoggingProvider, LogLevel, LogObject } from '../types/logging';
 
 class Logger implements LoggingProvider {
-    private log: pino.Logger;
+    private namespace: string | null;
 
     public constructor(namespace?: string) {
-        if (namespace) {
-            this.log = baseLogger.child({ namespace });
-        } else {
-            this.log = baseLogger;
-        }
+        this.namespace = namespace ?? null;
     }
 
     private write(
@@ -21,10 +13,11 @@ class Logger implements LoggingProvider {
         message: string | LogObject,
         obj?: LogObject,
     ): void {
-        if (typeof message === 'object') {
-            this.log[level](message);
+        const prefix = `[${new Date().toISOString()}] ${level}:`
+        if (typeof message === 'string') {
+            console.log(prefix, message, obj)
         } else {
-            this.log[level]({ msg: message, ...obj });
+            console.log(prefix, obj)
         }
     }
 
@@ -43,12 +36,9 @@ class Logger implements LoggingProvider {
     public error(message: string | LogObject, obj?: LogObject): void {
         this.write(LogLevel.error, message, obj);
     }
-
-    public setLevel(level: LogLevel): void {
-        this.log.level = level;
-    }
 }
 
 const logger = new Logger();
 
 export { logger };
+

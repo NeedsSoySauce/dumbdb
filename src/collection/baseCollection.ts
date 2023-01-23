@@ -55,7 +55,9 @@ export class BaseCollection<T extends Model> implements Collection<T> {
         for (const key of required) {
             if (!copy[key]) {
                 throw Error(
-                    `Required property '${key}' has no value. Provide a value or specify a default in it's schema.`,
+                    `Required property '${String(
+                        key,
+                    )}' has no value. Provide a value or specify a default in it's schema.`,
                 );
             }
         }

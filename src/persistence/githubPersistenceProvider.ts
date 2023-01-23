@@ -20,9 +20,9 @@ export class GitHubPersistenceProvider implements PersistenceProvider {
         this.mutex = new Mutex();
     }
 
-    public async save(path: string, content: string | Buffer): Promise<void> {
+    public async save(path: string, content: string | Uint8Array): Promise<void> {
         const buffer =
-            typeof content === 'string' ? Buffer.from(content) : content;
+            typeof content === 'string' ? new TextEncoder().encode(content) : content;
 
         await this.mutex.runExclusive(async () => {
             const result = await this.github.UploadOrUpdateFile({
@@ -34,13 +34,8 @@ export class GitHubPersistenceProvider implements PersistenceProvider {
         });
     }
 
-    public async load(path: string): Promise<Buffer> {
+    public async load(path: string): Promise<Uint8Array> {
         const file = await this.github.GetFile(this.repo, path);
-
-        if (!Buffer.isEncoding(file.encoding)) {
-            throw Error(`Unsupported encoding '${file.encoding}'`);
-        }
-
-        return Buffer.from(file.content, file.encoding);
+        return new TextEncoder().encode(file.content);
     }
 }

@@ -7,7 +7,7 @@ export enum LogLevel {
 
 // For logging we accept anything and serialize as much as possible
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type LogObject = Record<any, any>;
+export type LogObject = any;
 
 export type LogFunction = (
     message: string | LogObject,
@@ -19,5 +19,4 @@ export interface LoggingProvider {
     info: LogFunction;
     warn: LogFunction;
     error: LogFunction;
-    setLevel(level: LogLevel): void;
 }

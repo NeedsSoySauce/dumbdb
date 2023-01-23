@@ -1,7 +1,10 @@
 {
     "root": true,
     "parser": "@typescript-eslint/parser",
-    "plugins": ["@typescript-eslint"],
+    "plugins": [
+        "@typescript-eslint",
+        "import"
+    ],
     "extends": [
         "airbnb-typescript",
         "eslint:recommended",
@@ -30,13 +33,19 @@
                 "message": "Do not use default exports. Importing modules must give a name to these values, which can lead to inconsistencies in naming across modules."
             }
         ],
-        "class-methods-use-this": "off"
+        "class-methods-use-this": "off",
+        "react/jsx-filename-extension": "off"
     },
     "overrides": [
         {
-            "files": ["*.ts", "*.tsx"],
+            "files": [
+                "*.ts",
+                "*.tsx"
+            ],
             "rules": {
-                "@typescript-eslint/explicit-member-accessibility": ["error"]
+                "@typescript-eslint/explicit-member-accessibility": [
+                    "error"
+                ]
             }
         }
     ]
